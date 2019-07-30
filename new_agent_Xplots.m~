@@ -12,8 +12,8 @@ maintic = tic;
 
 n_recty = 14;                 %maximum time allowed (must be whole number)
 alpha = .2;
-x_cost = .02;
-end_penalty = -1;
+x_cost = .01;
+end_penalty = -1000;
 
 %% Generate Stimuli
 nstim = 5000;
@@ -857,12 +857,12 @@ end
 h = get(0,'children');
 %h = sort(h);
 for j=1:length(h)
-   saveas(h(j), ['plots/AllAgentx' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.fig']);
-   saveas(h(j), ['plots/AllAgentnx' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.pdf']);
-   saveas(h(j), ['plots/AllAgentnx' num2str(n_recty) '_tc_'  num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.png']);
+   saveas(h(j), ['plots/AllAgentx' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) 'alpha_' num2str(alpha) '.fig']);
+   saveas(h(j), ['AllAgentnx' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) 'alpha_' num2str(alpha) '.pdf']);
+%   saveas(h(j), ['AllAgentnx' num2str(n_recty) '_tc_'  num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) 'alpha_' num2str(alpha) '.png']);
 end
 
-close all
+%close all
 end %<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<uncomment
 
 computation_time = toc(maintic);

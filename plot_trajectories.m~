@@ -41,20 +41,20 @@ figure
 difficulty = nanmean(stim2,2);
 [sorted idx] = sort(difficulty);
 %figure
-whichstim=idx(1:6)';
+whichstim=idx(2300:2315)';
 %whichstim=9;41
 for i = whichstim
     hold on
     yyaxis right
     plot(.25*[1:last(i)],1.02*(stim2(i,1:last(i))+max(stim2(:)))/2, 'k.', 'markersize', 20)%'k.', 'markersize', 20)
     hold on
-    %plot(.25*[1:last(i)],stimuli(i,1:last(i)), '-r', 'markersize', 20)%'r-', 'markersize', 20)
+    plot(.25*[1:last(i)],stimuli(i,1:last(i)), 'r-', 'markersize', 20)%'r-', 'markersize', 20)
     ylabel('Belief')
     ylim([-0.05 1.05])
     yyaxis left
     hold on
 if choice(i)==1
-plot(.25*[1:last(i)],x(i,1:last(i))-x_num-1,'r','linewidth',2)%'r','linewidth',2)
+plot(.25*[1:last(i)],x(i,1:last(i))-x_num-1,'r','linewidth',2)
 elseif choice(i)==n_rectx
 plot(.25*[1:last(i)],x(i,1:last(i))-x_num-1,'b','linewidth',2)
 end
