@@ -11,7 +11,6 @@ rng(10)                       %set seed for reproducibility of results
 maintic = tic;
 
 n_recty = 14;                 %maximum time allowed (must be whole number)
-g_num=500;
 alpha = .2;
 x_cost = .01;
 end_penalty = -1;
@@ -32,25 +31,8 @@ stimuli= nan(nstim,length(tvec)-1);
 tic
 rs  = cumsum(max(stim,0),2);
 ns  = size(stim,2);
-% r_n = nan(ns,g_num+2);
-% g_n = nan(ns,g_num+2); 
-% for n = 1:ns
-%     rnn      = linspace(0,n,g_num+2);
-%     r_n(n,:) = rnn;
-%     g_n(n,:) = betainc(.5,rnn+1,n+1-rnn,'upper');
-% end
-% r_n = r_n';
-% 
-% for n = 1:ns
-%     
-%     rsn     = rs(:,n) + randn(size(rs(:,n)))*sigma.*sqrt(rs(:,n).*(n-rs(:,n)));
-%     tempvar = knnsearch(r_n(:,n),rsn);
-%     runs(:,n)   = tempvar;
-%     stimuli(:,n)= g_n(n,tempvar);
-%     
-% end
 
-nmax = size(stim,2);
+%nmax = size(stim,2);
 
 %flips
 flips = rand(nstim,size(stim,2));
@@ -60,8 +42,6 @@ stim_noisy = bsxfun(@times, stim, flips);
 %end of flips
 
 for i = 1:size(stim,1)
-    %ns=cumsum(ones(size(stim(i,:))));
-    tempvar=[];
     for n = 1:ns
 
         r   = linspace(0,n,n+1);
@@ -78,25 +58,7 @@ for i = 1:size(stim,1)
 
 
         rs=sum(max(stim_noisy(i,1:n),0));
-%                 rsn=.5+rs+(randn(size(rs))*(sigma*n));
-%                 tempvar=knnsearch(r_n',rsn');
-%                 runs(i,n)=tempvar;
-        %runsBin(i,n)=runs(i,n);
 
-        %p(i,n) = g_n(rs+1);
-        
-        %using belief for next timestep
-%         random_next = rand;
-%         randomnext(i,n) = random_next;
-%         if random_next>g(rs+1)
-%             p(i,n) = g_n(rs+2);
-%         else
-%             p(i,n) = g_n(rs+1);
-%         end
-%         
-%         stimuli(i,n)=p(i,n);
-        %
-        
         stimuli(i,n)=g(rs+1);
 
     end
@@ -135,7 +97,7 @@ for dim1=1:length(t_costs);
     t_cost = t_costs(dim1);
 %n_rectxs=17;
 tout=1;
-%uncomment:
+
 mainfig1=figure;
 set(mainfig1,'position',[0 100 800 500]);
 set(mainfig1,'color','white')
@@ -170,7 +132,6 @@ set(mainfig1,'color','white')
 mainfig1=figure;
 set(mainfig1,'position',[0 100 800 500]);
 set(mainfig1,'color','white')
-%end of stuff to uncomment
 
 for dim2 = 1:length(n_rectxs)
     
@@ -204,21 +165,7 @@ rng(1);
 
 t_num = n_recty/(chunk_duration_msec/1000);
 
-[ gn, gpn, dgn,dgpn, pggn ] = new_new_belief( alpha, t_num );
-
-% Value = nan(t_num,g_num,n_rectx);
-% stop = 0
-% for n = 1:t_num
-%     
-%     Value(n,:,1)    = 1-gn(:,n)';
-%     Value(n,:,end)  = gn(:,n)';
-%     if stop==0
-%         Value(n,:,1)
-%         Value(n,:,end)
-%         stop = 1;
-%     end
-%     
-% end
+[ gn, gpn, dgn,dgpn, pggn ] = new_belief( alpha, t_num );
 
 
 Value = {};%nan(t_num,g_num,n_rectx);
@@ -234,20 +181,11 @@ end
 
 Value{t_num}(:,2:end-1) = end_penalty;  %should be bigger than accumulated time cost at t=t_num
 
-% for n = 1:t_num
-%     for n_cell = 1:t_num
-%         if n<n_cell+1
-%               Value{n_cell}(n,1) = 1-gn{n_cell}(n);
-%               Value{n_cell}(n,n_rectx) = 1-gn{n_cell}(n);
-%         end
-%     end
-% end
-
 
 %Vm = NaN(t_num-1, g_num,n_rectx);  %index of the position of max(E[V]) %why t_num-1
-Vm = {}; %check what this is exactly <<<<<<<<
+Vm = {}; 
 for t = 1:t_num-1
-    Vm{t} = nan(t+1,n_rectx); % check whether it should be t or t+1<<<<<<<<
+    Vm{t} = nan(t+1,n_rectx); 
 end
 
 xtgrid = ones(1,n_rectx);
@@ -271,7 +209,6 @@ end
 
 
 for t = t_num-1:-1:1
-    % int{p(g(t+dt)|g(t))*V(t+dt,g(t+dt),x(t+dt))dg(t+dt)}
     gg  = pggn{t};
     g   = gn{t};
     gp  = gpn{t};
@@ -288,7 +225,7 @@ for t = t_num-1:-1:1
         MovementCosts(MovementCosts>1)=Inf;
         MovementCosts = -x_cost*MovementCosts;
         ExpectedValues = bsxfun(@plus,Evidence,MovementCosts+TimeCosts);
-        [Value{t}(:,j), Vm{t}(:,j)] = max(ExpectedValues+eps*randn(size(ExpectedValues)),[],2); %<<<<<<<<<<<<<<<<<<<<<<<<<<<<< I do not understand this completely
+        [Value{t}(:,j), Vm{t}(:,j)] = max(ExpectedValues+eps*randn(size(ExpectedValues)),[],2);
         %we dont need the values, only the location of the max, Vm
         Values{t}(:,j,:) = ExpectedValues;
     end
@@ -298,12 +235,12 @@ toc
 
 %% Calculate bounds from the Intersections of action Values
 
-Blr     = nan(t_num,n_rectx); %check what this is exactly <<<<<<<< boundary lr g-space?
-Blrv    = nan(t_num,n_rectx); %^ boundary lr V-space?
-Br      = nan(t_num,n_rectx); %^ 
-Brv     = nan(t_num,n_rectx); %^
-Bl      = nan(t_num,n_rectx); %^
-Blv     = nan(t_num,n_rectx); %^
+Blr     = nan(t_num,n_rectx); 
+Blrv    = nan(t_num,n_rectx); 
+Br      = nan(t_num,n_rectx); 
+Brv     = nan(t_num,n_rectx); 
+Bl      = nan(t_num,n_rectx); 
+Blv     = nan(t_num,n_rectx);
 
 for t = 1:t_num
     index=1;
@@ -446,7 +383,6 @@ figure(4)
     ii=ii+1;
     end
     
-%end %<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< comment
 
 %% Make Trajectories
 
@@ -921,9 +857,9 @@ end
 h = get(0,'children');
 %h = sort(h);
 for j=1:length(h)
-  saveas(h(j), ['AllAgentx' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) 'alpha_' num2str(alpha) '.fig']);
-  saveas(h(j), ['AllAgentnx' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) 'alpha_' num2str(alpha) '.pdf']);
-  saveas(h(j), ['AllAgentnx' num2str(n_recty) '_tc_'  num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) 'alpha_' num2str(alpha) '.png']);
+%   saveas(h(j), ['AllAgentx' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) 'alpha_' num2str(alpha) '.fig']);
+%   saveas(h(j), ['AllAgentnx' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) 'alpha_' num2str(alpha) '.pdf']);
+%   saveas(h(j), ['AllAgentnx' num2str(n_recty) '_tc_'  num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) 'alpha_' num2str(alpha) '.png']);
 end
 
 close all
@@ -931,7 +867,7 @@ end %<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<uncomment
 
 computation_time = toc(maintic);
 toc(maintic)
-
+return
 %%
 [X,Y]=meshgrid(n_rectxs,([ 16*14 8*14 4*14 2*14 14  ]));
 fig=figure;

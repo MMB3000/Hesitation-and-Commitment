@@ -14,7 +14,7 @@ n_recty = 14;                 %maximum Time Limit (must be whole number)
 g_num=500;
 alpha =.2;
 x_cost = .01;%.1
-end_penalty = -1;
+end_penalty = -1; %should be bigger than accumulated time cost at t=t_num
 
 %% Generate Stimuli
   nstim = 5000;
@@ -34,7 +34,6 @@ end_penalty = -1;
   tic
   rs  = cumsum(max(stim,0),2);
   ns  = size(stim,2);
-  nmax = size(stim,2);
   
   %flips
   flips = rand(nstim,size(stim,2));
@@ -44,9 +43,6 @@ end_penalty = -1;
   %end of flips
   
 for i = 1:size(stim,1)
-    %ns=cumsum(ones(size(stim(i,:))));
-    %ns  = size(stim,2);
-    tempvar=[];
     for n = 1:ns
 
         r   = linspace(0,n,n+1);
@@ -62,23 +58,7 @@ for i = 1:size(stim,1)
 
 
 
-        rs=sum(max(stim_noisy(i,1:n),0));%rs=sum(max(stim(i,1:n),0));
-%                 rsn=.5+rs+(randn(size(rs))*(sigma*n));
-%                 tempvar=knnsearch(r_n',rsn');
-%                 runs(i,n)=tempvar;
-        %runsBin(i,n)=runs(i,n);
-        
-        %using belief for next timestep
-%         random_next = rand;
-%         randomnext(i,n) = random_next;
-%         if random_next>g(rs+1)
-%             p(i,n) = g_n(rs+2);
-%         else
-%             p(i,n) = g_n(rs+1);
-%         end
-%         
-%         stimuli(i,n)=p(i,n);
-        %
+        rs=sum(max(stim_noisy(i,1:n),0));
         
         stimuli(i,n)=g(rs+1);
 
@@ -186,7 +166,7 @@ rng(1);
 
 t_num=n_recty/(chunk_duration_msec/1000);
 
-[ gn, gpn, dgn,dgpn, pggn ] = new_new_belief( alpha, t_num );
+[ gn, gpn, dgn,dgpn, pggn ] = new_belief( alpha, t_num );
 
 Value = {};%nan(t_num,g_num,n_rectx);
 stop = 0;
@@ -199,11 +179,11 @@ for t = 1:t_num %t:=timestep
     Value{t}(:,end) = gn{t}';
 end
 
-Value{t_num}(:,2:end-1) = end_penalty;  %should be bigger than accumulated time cost at t=t_num
+Value{t_num}(:,2:end-1) = end_penalty; %should be bigger than accumulated time cost at t=t_num
 
 
 %Vm = NaN(t_num-1, g_num,n_rectx);  %index of the position of max(E[V]) %why t_num-1
-Vm = {}; %check what this is exactly <<<<<<<<<<<<<<<<
+Vm = {};
 for t = 1:t_num-1
     Vm{t} = nan(t+1,n_rectx); % check whether it should be t or t+1<<<<<<<<
 end
@@ -246,7 +226,7 @@ for t = t_num-1:-1:1
         MovementCosts(MovementCosts>1)=Inf;
         MovementCosts = -x_cost*MovementCosts;
         ExpectedValues = bsxfun(@plus,Evidence,MovementCosts+TimeCosts);
-        [Value{t}(:,j), Vm{t}(:,j)] = max(ExpectedValues+eps*randn(size(ExpectedValues)),[],2); %<<<<<<<<<<<<<<<<<<<<<<<<<<<<< I do not understand this completely
+        [Value{t}(:,j), Vm{t}(:,j)] = max(ExpectedValues+eps*randn(size(ExpectedValues)),[],2);
         %we dont need the values, only the location of the max, Vm
         Values{t}(:,j,:) = ExpectedValues;
     end
