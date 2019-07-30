@@ -1,4 +1,4 @@
-function [ gn, gpn, dgn, dgpn, pggn ] = new_new_belief(alfa,nmax)
+function [ gn, gpn, dgn, dgpn, pggn ] = new_belief(alfa,nmax)
 alpha = alfa;
 if nargin<2
     nmax = 28;
