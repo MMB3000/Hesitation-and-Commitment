@@ -13,7 +13,7 @@ maintic = tic;
 n_recty = 14;                 %maximum Time Limit (must be whole number)
 g_num=500;
 alpha =.2;
-x_cost = .01;%.1
+x_cost = .02;%.1
 end_penalty = -1; %should be bigger than accumulated time cost at t=t_num
 
 %% Generate Stimuli
@@ -69,7 +69,7 @@ end
 %% Loop over time costs
 t_costs = [1/(64*n_recty) 1/(32*n_recty) 1/(16*n_recty) 1/(8*n_recty) 1/(4*n_recty) 1/(2*n_recty) 1/(1*n_recty)];
 
-n_rectxs = 17; % [ 3 5 7 9 11 13 15 17 19 21 23 25 27 29 31 33]; %:2:41];% 41 51 55];%21 31];
+n_rectxs = 3; % [ 3 5 7 9 11 13 15 17 19 21 23 25 27 29 31 33]; %:2:41];% 41 51 55];%21 31];
 
 stim = stim/max(stim(:));
 
@@ -138,7 +138,7 @@ for dim1=1:length(t_costs)
 %n_rectxs=17;
 disp('Hello')
     
-clearvars -except nstim maintic dim1 dim2 all_betas all_poststarts all_pcs1 all_pcs2 all_starts all_npresses x_cost x_costs g_num alpha stim stimuli stim_noisy p runs n_recty n_rectx n_rectxs t_cost t_costs pc tout 
+clearvars -except nstim maintic dim1 dim2 all_betas all_poststarts all_pcs1 all_pcs2 all_starts all_npresses x_cost x_costs g_num alpha stim stimuli stim_noisy p runs n_recty n_rectx n_rectxs t_cost t_costs pc tout end_penalty
 
 %function [] = BinomialAgent() 
 %% SET GRID PARAMETERS
@@ -862,12 +862,12 @@ end
 h = get(0,'children');
 %h = sort(h);
 for j=1:length(h)
-  %saveas(h(j), ['AllAgenty' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '_x' num2str(n_rectx) '.fig']);
-  %saveas(h(j), ['AllAgentny' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '_x' num2str(n_rectx) '.pdf']);
-  %saveas(h(j), ['AllAgentny' num2str(n_recty) '_tc_'  num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '_x' num2str(n_rectx) '.png']);
+  saveas(h(j), ['plots/AllAgenty' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '_x' num2str(n_rectx) '.fig']);
+  saveas(h(j), ['plots/AllAgentny' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '_x' num2str(n_rectx) '.pdf']);
+  saveas(h(j), ['plots/AllAgentny' num2str(n_recty) '_tc_'  num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '_x' num2str(n_rectx) '.png']);
 end
 
-%close all
+close all
 end
 
 computation_time = toc(maintic);
