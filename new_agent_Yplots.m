@@ -17,7 +17,7 @@ x_cost = .02;%.1
 end_penalty = -1; %should be bigger than accumulated time cost at t=t_num
 
 %% Generate Stimuli
-  nstim = 5000;
+  nstim = 15000;
   tic
   stim = GenerateStimulus( nstim, n_recty );
   toc
@@ -78,7 +78,7 @@ stim = stim/max(stim(:));
 % t_costs(indx(i))= 1/(4*(n_recty-i));
 % end
 
-%t_costs = 1/(4*n_recty); %<<<<<<<<<<<<<<<<<<<<<<<<<< was uncomment
+t_costs = 1/(4*n_recty); %<<<<<<<<<<<<<<<<<<<<<<<<<< was uncomment
 %%
 
 all_pcs1=nan(length(t_costs),length(n_rectxs));
@@ -366,9 +366,9 @@ figure(4)
     for x = whichsquares
     subplot(1,length(whichsquares),ii)
     
-    plot((1:size(Br,1))/4,Br(:,x),'linewidth',2,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)],'HandleVisibility','off');
+    plot((1:size(Br,1))/4,Br(:,x),'.','MarkerSize',10,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)],'HandleVisibility','off');%'linewidth',2,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)],'HandleVisibility','off');
     hold on
-    plot((1:size(Bl,1))/4,Bl(:,x),'linewidth',2,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);
+    plot((1:size(Bl,1))/4,Bl(:,x),'.','MarkerSize',10,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);%'linewidth',2,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);
     plot((1:size(Bl,1))/4,.5*ones(size(Bl,1)),'k', 'HandleVisibility','off');
     if ii>1
         set(gca,'YTickLabel',[])
