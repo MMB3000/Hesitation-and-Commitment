@@ -362,6 +362,7 @@ end
 figure(4)
     ii=1;
     whichsquares=[ (n_rectx+1)/2-1  (n_rectx+1)/2 (n_rectx+1)/2+1];
+    whichsquares=(n_rectx+1)/2;
     for x = whichsquares
     subplot(1,length(whichsquares),ii)
     
@@ -379,7 +380,7 @@ figure(4)
     box off
     ylim([0 1])
     xlabel('Time (s)')
-    title(['x = ' ' ' num2str(x-(n_rectx+1)/2)])
+    %title(['x = ' ' ' num2str(x-(n_rectx+1)/2)])
     legend('-DynamicLegend', 'Location', 'EastOutside');   
     
     ii=ii+1;
@@ -862,12 +863,12 @@ end
 h = get(0,'children');
 %h = sort(h);
 for j=1:length(h)
-  saveas(h(j), ['plots/AllAgenty' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '_x' num2str(n_rectx) '.fig']);
-  saveas(h(j), ['plots/AllAgentny' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '_x' num2str(n_rectx) '.pdf']);
-  saveas(h(j), ['plots/AllAgentny' num2str(n_recty) '_tc_'  num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '_x' num2str(n_rectx) '.png']);
+  %saveas(h(j), ['plots/AllAgenty' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '_x' num2str(n_rectx) '.fig']);
+  %saveas(h(j), ['plots/AllAgentny' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '_x' num2str(n_rectx) '.pdf']);
+  %saveas(h(j), ['plots/AllAgentny' num2str(n_recty) '_tc_'  num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '_x' num2str(n_rectx) '.png']);
 end
 
-close all
+%close all
 end
 
 computation_time = toc(maintic);

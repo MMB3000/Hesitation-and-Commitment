@@ -241,22 +241,23 @@ Br      = nan(t_num,n_rectx);
 Brv     = nan(t_num,n_rectx); 
 Bl      = nan(t_num,n_rectx); 
 Blv     = nan(t_num,n_rectx);
-
+figure
+hold on
 for t = 1:t_num
     index=1;
-    for x = 2:n_rectx-1 %all non-terminal x
+    for x_ = 2:n_rectx-1 %all non-terminal x
         
-        vr = Values{t}(:,x,x+1)'; %value of going to the right
-        vl = Values{t}(:,x,x-1)'; %value of going to the left
-        vw = Values{t}(:,x,x)'; %value of waiting
+        vr = Values{t}(:,x_,x_+1)'; %value of going to the right
+        vl = Values{t}(:,x_,x_-1)'; %value of going to the left
+        vw = Values{t}(:,x_,x_)'; %value of waiting
         
         %comment below
-%            subplot(1,3,index)
-%            hold on
-%            plot3(t/4*ones(size(gn{t})),gn{t},vr,'b')
-%            hold on
-%            plot3(t/4*ones(size(gn{t})),gn{t},vl,'r')
-%            plot3(t/4*ones(size(gn{t})),gn{t},vw,'k')
+            %subplot(1,3,index)
+%             hold on
+%             plot3(t/4*ones(size(gn{t})),gn{t},vr,'.b')
+%             hold on
+%             plot3(t/4*ones(size(gn{t})),gn{t},vl,'.r')
+%             plot3(t/4*ones(size(gn{t})),gn{t},vw,'.k')
         %comment above
         
         rlw = InterX([gn{t}'; vl],[gn{t}'; vw]); % intersection (g,V) of value left and value wait? (why r?) <<<<<<
@@ -264,22 +265,22 @@ for t = 1:t_num
         rlr = InterX([gn{t}'; vl],[gn{t}'; vr]); %^ ...
                          
         if ~isempty(rlw) &&  ~isempty(rwr) && rlw(2)>rlr(2)
-            %plot3(t/4,rlw(1),rlw(2),'.r','markersize',15);%comment
+%             plot3(t/4,rlw(1),rlw(2),'.r','markersize',15);%comment
             
-            Blv(t,x)    = rlw(2);
-            Bl(t,x)     = rlw(1);
+            Blv(t,x_)    = rlw(2);
+            Bl(t,x_)     = rlw(1);
             
         end
         
         if ~isempty(rwr) && ~isempty(rlw) && rwr(2)>rlr(2)
-            %plot3(t/4,rwr(1),rwr(2),'.b','markersize',15);%comment
-            Brv(t,x)    = rwr(2);
-            Br(t,x)     = rwr(1);
+%             plot3(t/4,rwr(1),rwr(2),'.b','markersize',15);%comment
+            Brv(t,x_)    = rwr(2);
+            Br(t,x_)     = rwr(1);
         end
         if~isempty(rlr)
-            %plot3(t/4,rlr(1),rlr(2),'.g','markersize',15);%comment
-            Blrv(t,x)   = rlr(2);
-            Blr(t,x)    = rlr(1);
+%             plot3(t/4,rlr(1),rlr(2),'.g','markersize',15);%comment
+            Blrv(t,x_)   = rlr(2);
+            Blr(t,x_)    = rlr(1);
         end
         
         tbar=t_num-1-(n_rectx-1)/2;
@@ -287,12 +288,12 @@ for t = 1:t_num
             tbar=2;
         end
         if t>tbar-1 && isempty(rlw) && ~isempty(rlr)
-            Blv(t,x)    = rlr(2);
-            Bl(t,x)     = rlr(1);
+            Blv(t,x_)    = rlr(2);
+            Bl(t,x_)     = rlr(1);
         end
         if t>tbar-1 && isempty(rwr)  && ~isempty(rlr)
-            Brv(t,x)    = rlr(2);
-            Br(t,x)     = rlr(1);
+            Brv(t,x_)    = rlr(2);
+            Br(t,x_)     = rlr(1);
         end
         
 %         if Bl(t,x)==0
@@ -303,29 +304,29 @@ for t = 1:t_num
 %             Bl(t,x)=nan;
 %         end
         
-        lbalt           = Bl(1:t,x);
+        lbalt           = Bl(1:t,x_);
         lbalt(lbalt==0) = [];
         if ~any(~isnan(lbalt)) && isempty(rlw)
             %Blv(t,x)=rlr(2); %comment
-            Bl(t,x)     = 0;%rlr(1)
+            Bl(t,x_)     = 0;%rlr(1)
         end
-        rbalt           = Br(1:t,x);
+        rbalt           = Br(1:t,x_);
         rbalt(rbalt==1) = [];
         if ~any(~isnan(rbalt)) && isempty(rwr)
             %Brv(t,x)=rlr(2);%comment
-            Br(t,x)     = 1;%rlr(1);
+            Br(t,x_)     = 1;%rlr(1);
         end
                
-%          zlim([.1 .9])
-%          title(['x =' ' ' num2str(x-(n_rectx-1)/2-1) ])
-%          xlabel('t')
-%          ylabel('g')
-%          if index==1
-%            zlabel('Value')
-%          end
-%          index=index+1;
-%          hold off
-%          view(80,74)
+%           zlim([.1 .9])
+%           %title(['x =' ' ' num2str(x_-(n_rectx-1)/2-1) ])
+%           xlabel('t (s)')
+%           ylabel('g')
+%           if index==1
+%             zlabel('Value')
+%           end
+%           index=index+1;
+%           hold off
+%           view(80,74)
     end
 end
 
@@ -360,12 +361,13 @@ end
 figure(4)
     ii=1;
     whichsquares=[ (n_rectx+1)/2-1  (n_rectx+1)/2 (n_rectx+1)/2+1];
-    for x = whichsquares
+    whichsquares=(n_rectx+1)/2;
+    for x_ = whichsquares
     subplot(1,length(whichsquares),ii)
     
-    plot((1:size(Br,1))/4,Br(:,x),'.','color', [n_rectx/(max(n_rectxs)+1) n_rectx/(max(n_rectxs)+1) n_rectx/(max(n_rectxs)+1)],'HandleVisibility','off');%'linewidth',2,'color', [n_rectx/(max(n_rectxs)+1) n_rectx/(max(n_rectxs)+1) n_rectx/(max(n_rectxs)+1)],'HandleVisibility','off');
+    plot((1:size(Br,1))/4,Br(:,x_),'.','color', [n_rectx/(max(n_rectxs)+1) n_rectx/(max(n_rectxs)+1) n_rectx/(max(n_rectxs)+1)],'HandleVisibility','off');%'linewidth',2,'color', [n_rectx/(max(n_rectxs)+1) n_rectx/(max(n_rectxs)+1) n_rectx/(max(n_rectxs)+1)],'HandleVisibility','off');
     hold on
-    plot((1:size(Bl,1))/4,Bl(:,x),'.','color', [n_rectx/(max(n_rectxs)+1) n_rectx/(max(n_rectxs)+1) n_rectx/(max(n_rectxs)+1)], 'DisplayName', ['x' num2str(n_rectx)]);%'linewidth',2,'color', [n_rectx/(max(n_rectxs)+1) n_rectx/(max(n_rectxs)+1) n_rectx/(max(n_rectxs)+1)], 'DisplayName', ['x' num2str(n_rectx)]);
+    plot((1:size(Bl,1))/4,Bl(:,x_),'.','color', [n_rectx/(max(n_rectxs)+1) n_rectx/(max(n_rectxs)+1) n_rectx/(max(n_rectxs)+1)], 'DisplayName', ['x' num2str(n_rectx)]);%'linewidth',2,'color', [n_rectx/(max(n_rectxs)+1) n_rectx/(max(n_rectxs)+1) n_rectx/(max(n_rectxs)+1)], 'DisplayName', ['x' num2str(n_rectx)]);
     plot((1:size(Bl,1))/4,.5*ones(size(Bl,1)),'k', 'HandleVisibility','off');
     if ii>1
         set(gca,'YTickLabel',[])
@@ -377,7 +379,7 @@ figure(4)
     box off
     ylim([0 1])
     xlabel('Time (s)')
-    title(['x = ' ' ' num2str(x-(n_rectx+1)/2)])
+    %title(['x = ' ' ' num2str(x-(n_rectx+1)/2)])
     legend('-DynamicLegend', 'Location', 'EastOutside');   
     
     ii=ii+1;
@@ -857,12 +859,12 @@ end
 h = get(0,'children');
 %h = sort(h);
 for j=1:length(h)
-   saveas(h(j), ['plots/AllAgentx' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.fig']);
-   saveas(h(j), ['plots/AllAgentnx' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.pdf']);
-   saveas(h(j), ['plots/AllAgentnx' num2str(n_recty) '_tc_'  num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.png']);
+   %saveas(h(j), ['plots/AllAgentx' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.fig']);
+   %saveas(h(j), ['plots/AllAgentnx' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.pdf']);
+   %saveas(h(j), ['plots/AllAgentnx' num2str(n_recty) '_tc_'  num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.png']);
 end
 
-close all
+%close all
 end %<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<uncomment
 
 computation_time = toc(maintic);
