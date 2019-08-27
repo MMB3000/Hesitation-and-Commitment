@@ -69,7 +69,7 @@ end
 %% Loop over time costs
 t_costs = [1/(64*n_recty) 1/(32*n_recty) 1/(16*n_recty) 1/(8*n_recty) 1/(4*n_recty) 1/(2*n_recty) 1/(1*n_recty)];
 
-n_rectxs = 3; % [ 3 5 7 9 11 13 15 17 19 21 23 25 27 29 31 33]; %:2:41];% 41 51 55];%21 31];
+n_rectxs = 17; % [ 3 5 7 9 11 13 15 17 19 21 23 25 27 29 31 33]; %:2:41];% 41 51 55];%21 31];
 
 stim = stim/max(stim(:));
 
@@ -362,7 +362,7 @@ end
 figure(4)
     ii=1;
     whichsquares=[ (n_rectx+1)/2-1  (n_rectx+1)/2 (n_rectx+1)/2+1];
-    whichsquares=(n_rectx+1)/2;
+    %whichsquares=(n_rectx+1)/2;
     for x = whichsquares
     subplot(1,length(whichsquares),ii)
     
@@ -380,7 +380,7 @@ figure(4)
     box off
     ylim([0 1])
     xlabel('Time (s)')
-    %title(['x = ' ' ' num2str(x-(n_rectx+1)/2)])
+    title(['x = ' ' ' num2str(x-(n_rectx+1)/2)])
     legend('-DynamicLegend', 'Location', 'EastOutside');   
     
     ii=ii+1;
@@ -863,9 +863,13 @@ end
 h = get(0,'children');
 %h = sort(h);
 for j=1:length(h)
-  %saveas(h(j), ['plots/AllAgenty' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '_x' num2str(n_rectx) '.fig']);
+  saveas(h(j), ['plots/AllAgenty' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '_x' num2str(n_rectx) '.fig']);
+  saveas(h(j), ['plots/AllAgentny' num2str(n_recty) '_tc_'  num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '_x' num2str(n_rectx) '.png']);
   %saveas(h(j), ['plots/AllAgentny' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '_x' num2str(n_rectx) '.pdf']);
-  %saveas(h(j), ['plots/AllAgentny' num2str(n_recty) '_tc_'  num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '_x' num2str(n_rectx) '.png']);
+  set(h(j),'Units','Inches');
+  pos = get(h(j),'Position');
+  set(h(j),'PaperPositionMode','Auto','PaperUnits','Inches','PaperSize',[pos(3), pos(4)])
+  print(h(j),['plots/AllAgentny' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '_x' num2str(n_rectx) '.pdf'],'-dpdf','-r0')
 end
 
 %close all

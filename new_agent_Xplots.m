@@ -16,11 +16,11 @@ x_cost = .02;
 end_penalty = -1;
 
 %% Generate Stimuli
-nstim = 6;
+nstim = 5000;
 tic
 stim = GenerateStimulus( nstim, n_recty );
 %stim = [easystim;easystim;easystim;easystim;easystim;easystim];
-stim = [hardstim;hardstim;hardstim;hardstim;hardstim;hardstim];
+%stim = [hardstim;hardstim;hardstim;hardstim;hardstim;hardstim];
 toc
 stim = stim/max(stim(:));  
 %% Transform to Belief
@@ -70,7 +70,7 @@ toc
 %t_costs = [1/(64*n_recty) 1/(32*n_recty) 1/(16*n_recty) 1/(8*n_recty) 1/(4*n_recty) 1/(2*n_recty) 1/(1*n_recty)];
 
 %n_rectxs = [ 3 5 7 9 11 13 15 17 19 21 23 25 27 29 31 33 ]; %:2:41];% 41 51 55];%21 31];
-n_rectxs = 17;%[ 3 5 7 9 11 21 31 41 51 61 71 81 91 101 111];
+n_rectxs = [ 3 5 7 9 11 21 31 41 51 61 71 81 91 101 111];
 stim = stim/max(stim(:));
 %t_costs = 1/(64*n_recty);
 % indx=length(t_costs)+1:length(t_costs)+n_recty;
@@ -245,7 +245,7 @@ figure
 hold on
 for t = 1:t_num
     index=1;
-    for x_ = 5:4:13%2:n_rectx-1 %all non-terminal x
+    for x_ = 2:n_rectx-1 %all non-terminal x
         
         vr = Values{t}(:,x_,x_+1)'; %value of going to the right
         vl = Values{t}(:,x_,x_-1)'; %value of going to the left
@@ -361,7 +361,7 @@ end
 figure(4)
     ii=1;
     whichsquares=[ (n_rectx+1)/2-1  (n_rectx+1)/2 (n_rectx+1)/2+1];
-    whichsquares=(n_rectx+1)/2;
+    %whichsquares=(n_rectx+1)/2;
     for x_ = whichsquares
     subplot(1,length(whichsquares),ii)
     
@@ -859,9 +859,13 @@ end
 h = get(0,'children');
 %h = sort(h);
 for j=1:length(h)
-   saveas(h(j), ['plots/AllAgentx' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.fig']);
-   saveas(h(j), ['plots/AllAgentnx' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.pdf']);
-   saveas(h(j), ['plots/AllAgentnx' num2str(n_recty) '_tc_'  num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.png']);
+   saveas(h(j), ['plots/Xplots/AllAgentx' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.fig']);
+   saveas(h(j), ['plots/Xplots/AllAgentnx' num2str(n_recty) '_tc_'  num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.png']);
+   set(h(j),'Units','Inches');
+   pos = get(h(j),'Position');
+   set(h(j),'PaperPositionMode','Auto','PaperUnits','Inches','PaperSize',[pos(3), pos(4)])
+   print(h(j),['plots/Xplots/AllAgentnx' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.pdf'],'-dpdf','-r0')
+   %saveas(h(j), ['plots/AllAgentnx' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.pdf']);
 end
 
 close all
