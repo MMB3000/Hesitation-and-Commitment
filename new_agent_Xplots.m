@@ -16,11 +16,11 @@ x_cost = .02;
 end_penalty = -1;
 
 %% Generate Stimuli
-nstim = 5000;
+nstim = 6;
 tic
 stim = GenerateStimulus( nstim, n_recty );
 %stim = [easystim;easystim;easystim;easystim;easystim;easystim];
-%stim = [hardstim;hardstim;hardstim;hardstim;hardstim;hardstim];
+stim = [hardstim;hardstim;hardstim;hardstim;hardstim;hardstim];
 toc
 stim = stim/max(stim(:));  
 %% Transform to Belief
@@ -245,19 +245,19 @@ figure
 hold on
 for t = 1:t_num
     index=1;
-    for x_ = 2:n_rectx-1 %all non-terminal x
+    for x_ = 5:4:13%2:n_rectx-1 %all non-terminal x
         
         vr = Values{t}(:,x_,x_+1)'; %value of going to the right
         vl = Values{t}(:,x_,x_-1)'; %value of going to the left
         vw = Values{t}(:,x_,x_)'; %value of waiting
         
         %comment below
-            %subplot(1,3,index)
-%             hold on
-%             plot3(t/4*ones(size(gn{t})),gn{t},vr,'.b')
-%             hold on
-%             plot3(t/4*ones(size(gn{t})),gn{t},vl,'.r')
-%             plot3(t/4*ones(size(gn{t})),gn{t},vw,'.k')
+%             subplot(1,3,index)
+%              hold on
+%              plot3(t/4*ones(size(gn{t})),gn{t},vr,'.b')
+%              hold on
+%              plot3(t/4*ones(size(gn{t})),gn{t},vl,'.r')
+%              plot3(t/4*ones(size(gn{t})),gn{t},vw,'.k')
         %comment above
         
         rlw = InterX([gn{t}'; vl],[gn{t}'; vw]); % intersection (g,V) of value left and value wait? (why r?) <<<<<<
@@ -265,7 +265,7 @@ for t = 1:t_num
         rlr = InterX([gn{t}'; vl],[gn{t}'; vr]); %^ ...
                          
         if ~isempty(rlw) &&  ~isempty(rwr) && rlw(2)>rlr(2)
-%             plot3(t/4,rlw(1),rlw(2),'.r','markersize',15);%comment
+%              plot3(t/4,rlw(1),rlw(2),'.r','markersize',15);%comment
             
             Blv(t,x_)    = rlw(2);
             Bl(t,x_)     = rlw(1);
@@ -273,12 +273,12 @@ for t = 1:t_num
         end
         
         if ~isempty(rwr) && ~isempty(rlw) && rwr(2)>rlr(2)
-%             plot3(t/4,rwr(1),rwr(2),'.b','markersize',15);%comment
+%              plot3(t/4,rwr(1),rwr(2),'.b','markersize',15);%comment
             Brv(t,x_)    = rwr(2);
             Br(t,x_)     = rwr(1);
         end
         if~isempty(rlr)
-%             plot3(t/4,rlr(1),rlr(2),'.g','markersize',15);%comment
+%              plot3(t/4,rlr(1),rlr(2),'.g','markersize',15);%comment
             Blrv(t,x_)   = rlr(2);
             Blr(t,x_)    = rlr(1);
         end
@@ -317,16 +317,16 @@ for t = 1:t_num
             Br(t,x_)     = 1;%rlr(1);
         end
                
-%           zlim([.1 .9])
-%           %title(['x =' ' ' num2str(x_-(n_rectx-1)/2-1) ])
-%           xlabel('t (s)')
-%           ylabel('g')
-%           if index==1
-%             zlabel('Value')
-%           end
-%           index=index+1;
-%           hold off
-%           view(80,74)
+%            zlim([.1 .9])
+%            title(['x =' ' ' num2str(x_-(n_rectx-1)/2-1) ])
+%            xlabel('t (s)')
+%            ylabel('g')
+%            if index==1
+%              zlabel('Value')
+%            end
+%            index=index+1;
+%            hold off
+%            view(80,34)
     end
 end
 
@@ -859,12 +859,12 @@ end
 h = get(0,'children');
 %h = sort(h);
 for j=1:length(h)
-   %saveas(h(j), ['plots/AllAgentx' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.fig']);
-   %saveas(h(j), ['plots/AllAgentnx' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.pdf']);
-   %saveas(h(j), ['plots/AllAgentnx' num2str(n_recty) '_tc_'  num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.png']);
+   saveas(h(j), ['plots/AllAgentx' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.fig']);
+   saveas(h(j), ['plots/AllAgentnx' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.pdf']);
+   saveas(h(j), ['plots/AllAgentnx' num2str(n_recty) '_tc_'  num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '.png']);
 end
 
-%close all
+close all
 end %<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<uncomment
 
 computation_time = toc(maintic);

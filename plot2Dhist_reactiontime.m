@@ -1,3 +1,5 @@
+%%
+difficulty = nanmean(stim,2);
 %% Plot 2D Histogram of RT vs Stimulus strength
 figure
 % ylim([2 14])

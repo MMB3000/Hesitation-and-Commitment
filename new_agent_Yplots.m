@@ -3,7 +3,7 @@
 %set bold font and lines for last figures
 %change namesave to y size not tc
 
-clear all
+%clear all
 clearvars -except easystim hardstim
 close all
 
@@ -17,7 +17,7 @@ x_cost = .02;%.1
 end_penalty = -1; %should be bigger than accumulated time cost at t=t_num
 
 %% Generate Stimuli
-  nstim = 15000;
+  nstim = 5000;
   tic
   stim = GenerateStimulus( nstim, n_recty );
   toc
@@ -78,7 +78,7 @@ stim = stim/max(stim(:));
 % t_costs(indx(i))= 1/(4*(n_recty-i));
 % end
 
-t_costs = 1/(4*n_recty); %<<<<<<<<<<<<<<<<<<<<<<<<<< was uncomment
+%t_costs = 1/(4*n_recty); %<<<<<<<<<<<<<<<<<<<<<<<<<< was uncomment
 %%
 
 all_pcs1=nan(length(t_costs),length(n_rectxs));
@@ -507,9 +507,9 @@ figure(4)
 figure(5)
 subplot(1,2,1)
 hold on
-plot(1/(t_cost*n_recty),pc(tout-1),'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);
+plot(t_cost,pc(tout-1),'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);%plot(1/(t_cost*n_recty),pc(tout-1),'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);
 title('%Correct (p)')
-xlabel('Time Limit')
+xlabel('Time Cost')%xlabel('Time Limit')
 ylabel('% Correct')
 ylim([0 1])
 set(gca,'linewidth',2)
@@ -521,9 +521,9 @@ all_pcs1(dim1,dim2)=pc(tout-1);
 
 subplot(1,2,2)
 hold on
-plot(1/(t_cost*n_recty),pc_e(tout-1),'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);
+plot(t_cost,pc_e(tout-1),'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);%plot(1/(t_cost*n_recty),pc_e(tout-1),'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);
 title('%Correct (Experienced)')
-xlabel('Time Limit')
+xlabel('Time Cost')%xlabel('Time Limit')
 
 all_pcs2(dim1,dim2)=pc_e(tout-1);
 
@@ -846,12 +846,12 @@ box off
 
 figure(9)
 hold all
-plot(1/(t_cost*n_recty), mean(last/4),'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);
-errorbar(1/(t_cost*n_recty), mean(last/4),std(last/4,[],2),'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)],'linewidth',2,'HandleVisibility','off');
+plot(t_cost, mean(last/4),'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);%plot(1/(t_cost*n_recty), mean(last/4),'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);
+errorbar(t_cost, mean(last/4),std(last/4,[],2),'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)],'linewidth',2,'HandleVisibility','off');%errorbar(1/(t_cost*n_recty), mean(last/4),std(last/4,[],2),'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)],'linewidth',2,'HandleVisibility','off');
 
-xlabel('Time Limit')
+xlabel('Time Cost')%xlabel('Time Limit')
 ylabel('Reaction Time (s)')
-title('Reaction Time vs Time Limit')
+title('Reaction Time vs Time Cost')%title('Reaction Time vs Time Limit')
 set(gca,'linewidth',2)
 set(gca, 'fontsize',18)
 box off
