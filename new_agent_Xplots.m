@@ -379,7 +379,7 @@ figure(4)
     box off
     ylim([0 1])
     xlabel('Time (s)')
-    %title(['x = ' ' ' num2str(x-(n_rectx+1)/2)])
+    title(['x = ' ' ' num2str(x_-(n_rectx+1)/2)])
     legend('-DynamicLegend', 'Location', 'EastOutside');   
     
     ii=ii+1;
@@ -453,7 +453,7 @@ figure(4)
         
   means = mean(stim,2);
   for i=1:length(last)
-      x(i,last(i))
+      %x(i,last(i))
       if means(i)<0 && x(i,last(i))==1
           responses(i)=1;
       elseif means(i)>0 && x(i,last(i))==1
@@ -462,6 +462,8 @@ figure(4)
           responses(i)=2;
       elseif means(i)>0 && x(i,last(i))==n_rectx
           responses(i)=1;
+      else
+          responses(i)=NaN;
       end
   end
           
@@ -495,6 +497,8 @@ figure(4)
           responses_e(i)=2;
       elseif means_e(i)>0 && x(i,last(i))==n_rectx
           responses_e(i)=1;
+      else
+          responses_e(i)=NaN;
       end
   end
           
