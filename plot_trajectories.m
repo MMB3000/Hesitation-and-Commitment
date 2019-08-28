@@ -42,7 +42,7 @@ difficulty = nanmean(stim2,2);
 [sorted idx] = sort(difficulty);
 %figure
 whichstim=idx(1:6)';%75
-%whichstim=9;41
+whichstim=1001;
 C = {[.5 .6 .7],'b','k','g','y','r',[.8 .2 .6]};
 for i = whichstim
     hold on
@@ -55,7 +55,7 @@ for i = whichstim
     yyaxis left
     hold on
 if choice(i)==1
-plot(.25*[1:last(i)],x(i,1:last(i))-x_num-1,'-','color',C{i},'linewidth',2)%'r','linewidth',2)
+plot(.25*[1:last(i)],x(i,1:last(i))-x_num-1,'-','color','r','linewidth',2)%C{i},'linewidth',2)%'r','linewidth',2)
 elseif choice(i)==n_rectx
 plot(.25*[1:last(i)],x(i,1:last(i))-x_num-1,'-','color',C{i},'linewidth',2)%'r','linewidth',2)%plot(.25*[1:last(i)],x(i,1:last(i))-x_num-1,'-b','linewidth',2)
 end

@@ -631,12 +631,12 @@ end
 
 figure(1)
 hold all
-plot(1/(t_cost*n_recty), mean(start/4),'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);
-errorbar(1/(t_cost*n_recty), mean(start/4),std(start/4,[],2),'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)],'linewidth',2,'HandleVisibility','off');
+plot(t_cost, mean(start/4),'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);%plot(1/(t_cost*n_recty), mean(start/4),'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);
+errorbar(t_cost, mean(start/4),std(start/4,[],2),'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)],'linewidth',2,'HandleVisibility','off');%errorbar(1/(t_cost*n_recty), mean(start/4),std(start/4,[],2),'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)],'linewidth',2,'HandleVisibility','off');
 
-xlabel('Time Limit')
+xlabel('Time Cost')%xlabel('Time Limit')
 ylabel('Start Time (s)')
-title('Start Moving Time vs Time Limit')
+title('Start Moving Time vs Time Cost')%title('Start Moving Time vs Time Limit')
 set(gca,'linewidth',2)
 set(gca, 'fontsize',18)
 box off
@@ -646,14 +646,14 @@ all_starts(dim1,dim2) = mean(start/4);
 
 figure(2)
 hold all
-plot(1/(t_cost*n_recty), mean(npresses/((n_rectx-1)/2)),'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);
-errorbar(1/(t_cost*n_recty),mean(npresses/((n_rectx-1)/2)),std(npresses/((n_rectx-1)/2)),'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)],'HandleVisibility','off');
+plot(t_cost, mean(npresses/((n_rectx-1)/2)),'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);%plot(1/(t_cost*n_recty), mean(npresses/((n_rectx-1)/2)),'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);
+errorbar(t_cost,mean(npresses/((n_rectx-1)/2)),std(npresses/((n_rectx-1)/2)),'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)],'HandleVisibility','off');%errorbar(1/(t_cost*n_recty),mean(npresses/((n_rectx-1)/2)),std(npresses/((n_rectx-1)/2)),'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)],'HandleVisibility','off');
 
 all_npresses(dim1,dim2) = mean(npresses/((n_rectx-1)/2));
 
-xlabel('Time Limit')
+xlabel('Time Cost')%xlabel('Time Limit')
 ylabel('Number of Presses/Required')
-title('Hesitation vs Time Limit')
+title('Hesitation vs Time Cost')%title('Hesitation vs Time Limit')
 set(gca,'linewidth',2)
 set(gca, 'fontsize',18)
 box off
@@ -664,11 +664,11 @@ figure(3)
 hold all
 
 st=regstats(npresses./((1/(t_cost*n_recty)-1)/2),difficulty);
-plot(1/(t_cost*n_recty), round(st.tstat.beta(2)*100)/100,'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);
+plot(t_cost, round(st.tstat.beta(2)*100)/100,'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);%plot(1/(t_cost*n_recty), round(st.tstat.beta(2)*100)/100,'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);
 
-xlabel('Time Limit')
+xlabel('Time Cost')%xlabel('Time Limit')
 ylabel('\beta')
-title('\beta vs Time Limit')
+title('\beta vs Time Cost')%title('\beta vs Time Limit')
 set(gca,'linewidth',2)
 set(gca, 'fontsize',18)
 box off
@@ -696,10 +696,10 @@ for i = 1:size(x2,1)
     Zero_idxs(i)=N;
 end
 Zero_idxs(Zero_idxs==0)=nan;
-  plot(1/(t_cost*n_recty), nanmean(Zero_idxs),'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);
-    errorbar(1/(t_cost*n_recty), nanmean(Zero_idxs),nanstd(Zero_idxs,[],2),'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)],'linewidth',2,'HandleVisibility','off');
+  plot(t_cost, nanmean(Zero_idxs),'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);%plot(1/(t_cost*n_recty), nanmean(Zero_idxs),'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);
+    errorbar(t_cost, nanmean(Zero_idxs),nanstd(Zero_idxs,[],2),'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)],'linewidth',2,'HandleVisibility','off');%errorbar(1/(t_cost*n_recty), nanmean(Zero_idxs),nanstd(Zero_idxs,[],2),'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)],'linewidth',2,'HandleVisibility','off');
 
-    xlabel('Time Limit')
+    xlabel('Time Cost')%xlabel('Time Limit')
     ylabel('Average # Post-Start Waits')
     title('Average # of Post-Start Waits given a Wait')
       set(gca,'linewidth',2)
@@ -711,12 +711,12 @@ Zero_idxs(Zero_idxs==0)=nan;
   figure(7)
   hold all
   Zero_idxs(isnan(Zero_idxs))=0;
-  plot(1/(t_cost*n_recty), mean(Zero_idxs),'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);
-    errorbar(1/(t_cost*n_recty), mean(Zero_idxs),std(Zero_idxs,[],2),'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)],'linewidth',2,'HandleVisibility','off');
+  plot(t_cost, mean(Zero_idxs),'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);%plot(1/(t_cost*n_recty), mean(Zero_idxs),'.','markersize',40,'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)], 'DisplayName', ['y' num2str(1/(t_cost*n_recty))]);
+    errorbar(t_cost, mean(Zero_idxs),std(Zero_idxs,[],2),'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)],'linewidth',2,'HandleVisibility','off');%errorbar(1/(t_cost*n_recty), mean(Zero_idxs),std(Zero_idxs,[],2),'color', [t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost) t_cost/(max(t_costs)+t_cost)],'linewidth',2,'HandleVisibility','off');
 
-    xlabel('Time Limit')
+    xlabel('Time Cost')%xlabel('Time Limit')
     ylabel('Average # of Post-Start Waits')
-    title('Post-Start Waiting vs Time Limit')
+    title('Post-Start Waiting vs Time Cost')%title('Post-Start Waiting vs Time Limit')
       set(gca,'linewidth',2)
   set(gca, 'fontsize',18)
   box off
@@ -872,7 +872,7 @@ for j=1:length(h)
   print(h(j),['plots/AllAgentny' num2str(n_recty) '_tc_'   num2str(t_cost) '_' 'xc_' num2str(x_cost) '_' num2str(j) '_alpha_' num2str(alpha) '_x' num2str(n_rectx) '.pdf'],'-dpdf','-r0')
 end
 
-%close all
+close all
 end
 
 computation_time = toc(maintic);
