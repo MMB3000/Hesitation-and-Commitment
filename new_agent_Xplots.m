@@ -13,7 +13,7 @@ maintic = tic;
 n_recty = 14;                 %maximum time allowed (must be whole number)
 alpha = .2;
 x_cost = .02;
-end_penalty = -1;
+end_penalty = -1;%-0.5;
 
 %% Generate Stimuli
 nstim = 5000;
@@ -71,6 +71,7 @@ toc
 
 %n_rectxs = [ 3 5 7 9 11 13 15 17 19 21 23 25 27 29 31 33 ]; %:2:41];% 41 51 55];%21 31];
 n_rectxs = [ 3 5 7 9 11 21 31 41 51 61 71 81 91 101 111];
+n_rectxs = 41;
 stim = stim/max(stim(:));
 %t_costs = 1/(64*n_recty);
 % indx=length(t_costs)+1:length(t_costs)+n_recty;
@@ -413,7 +414,7 @@ figure(4)
         clear last
         for traj = 1:size(stimuli,1)
             
-            for in = 1:(length(x(traj,:))) %<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< timestep ?
+            for in = 1:(length(x(traj,:))-1) %<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< timestep ?
                 if x(traj,in)==1 || x(traj,in)==n_rectx ||  isnan(x(traj,in))
                     
                 else
@@ -424,7 +425,7 @@ figure(4)
                     elseif isnan(Br(in,x(traj,in))) && x(traj,in)==(n_rectx+1)/2 
                         x(traj,in+1)=x(traj,in)+(2*(rand(1,1)>.5)-1);
                     elseif (n_rectx-1)/2 >= t_num-1
-                         x(traj,in+1)=x(traj,in)+(2*(rand(1,1)>.5)-1);
+                        x(traj,in+1)=x(traj,in)+(2*(rand(1,1)>.5)-1);
                                           
                     else 
                         x(traj,in+1)=x(traj,in);

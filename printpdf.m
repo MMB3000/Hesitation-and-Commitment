@@ -1,5 +1,5 @@
 %%Print pdf of current figure
-title_file = 'plots/belief_transitions_scaledplot_n5.pdf';
+title_file = 'plots/stimulus_belief_easy.pdf';
 
 set(gcf,'Units','Inches');
 pos = get(gcf,'Position');

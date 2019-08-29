@@ -131,9 +131,9 @@ for i = 1:nruns
     end
     
     if imod<4
-        stim(i,:)=ILDS(1)*(2*discreternd(tnum,[.6 .4])-3);
+        stim(i,:)=ILDS(1)*(2*discreternd(tnum,[.54 .46])-3);
     else
-        stim(i,:)=ILDS(1)*(2*discreternd(tnum,[.4 .6])-3);
+        stim(i,:)=ILDS(1)*(2*discreternd(tnum,[.46 .54])-3);
     end
 %     stim(i,:)=gcurr(randperm(lg));
 %     stim(i,:)=any_chunks_gen_uniform(ILDS, mean_shifts(3), AverageBinaural_Level, chunk_duration_msec, stim_duration_sec, 1, filter_win_msec, neighbor,1);

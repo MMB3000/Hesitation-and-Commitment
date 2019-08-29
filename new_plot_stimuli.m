@@ -5,7 +5,7 @@
 
 maintic = tic;
 
-n_recty = 7;                 %maximum time allowed (must be whole number)
+n_recty = 14;                 %maximum time allowed (must be whole number)
 g_num=500;
 
 
@@ -152,7 +152,7 @@ else
     plot(.25*(1:length(p(1,:))), p(1,:), '-', 'color', [0 .4 0], 'linewidth', 3 ,'HandleVisibility','off')
 end
 ylabel('Belief')
-xlim([0 7])
+xlim([0 14])
 legend('-DynamicLegend', 'Location', 'best')
 end
 title('Stimulus vs. Agent Belief')
